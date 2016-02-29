@@ -1,8 +1,8 @@
 = ruby-search-engine
 
-Author:: Martin Velez
-Copyright:: Copyright (c) 2011 Martin Velez
-License:: Distributed under the same terms as Ruby
+Author:: Martin Velez, Michael Yen, Matthew Le
+Copyright:: Copyright (c) 2016 Authors
+License:: MIT
 
 = Description 
 
@@ -13,7 +13,7 @@ Search the web using Ruby.
 # TODO
 
 = Installation
- gem install ruby_ngrams
+ gem install ruby-search-engines
 
 = Alternative Tools
 
@@ -22,10 +22,10 @@ Search the web using Ruby.
 = Usage
 
 You can simply run the executable and provide input via STDIN. 
- ruby_ngrams 
+ ruby_search_engine QUERY
 
 You can also provide input via one or more filenames
- ruby_ngrams [FILES]
+ ruby_search_engine [FILES]
 
 = Dependencies
 
@@ -37,5 +37,5 @@ You can also provide input via one or more filenames
 * Test to determine limits of current approach which parses and stores n-grams in memory. 
 
 = Source Code
- https://github.com/martinvelez/ruby_ngrams
+ https://github.com/martinvelez/ruby-search-engine
 
