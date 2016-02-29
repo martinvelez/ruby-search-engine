@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 
+require 'ruby-search-engine'
 
 
 # TODO: Make this into a better command-line app
