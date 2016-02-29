@@ -1,0 +1,41 @@
+= ruby-search-engine
+
+Author:: Martin Velez
+Copyright:: Copyright (c) 2011 Martin Velez
+License:: Distributed under the same terms as Ruby
+
+= Description 
+
+Search the web using Ruby.
+
+= Design
+
+# TODO
+
+= Installation
+ gem install ruby_ngrams
+
+= Alternative Tools
+
+* google-search[https://github.com/tj/google-search]
+
+= Usage
+
+You can simply run the executable and provide input via STDIN. 
+ ruby_ngrams 
+
+You can also provide input via one or more filenames
+ ruby_ngrams [FILES]
+
+= Dependencies
+
+* Ruby 1.9.1 or greater
+* ruby_cli[https://github.com/martinvelez/ruby_cli] to run the gem executable
+
+= TODO
+
+* Test to determine limits of current approach which parses and stores n-grams in memory. 
+
+= Source Code
+ https://github.com/martinvelez/ruby_ngrams
+
