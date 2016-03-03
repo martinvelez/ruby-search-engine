@@ -20,3 +20,9 @@ class SearchEngine
 
 end
 
+=begin
+query = "C++ how to initialize array"
+search_engine = SearchEngine.new()
+results = search_engine.search(query)
+puts results
+=end
