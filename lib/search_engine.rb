@@ -1,16 +1,14 @@
 require 'google-search'
-#require 'ruby_cli'
+# require 'ruby_cli'
 
 class SearchEngine
-
   attr_accessor :uri
 
   def initialize
-    #self.uri = 'http://www.google.com/uds/GwebSearch?start=0&rsz=large&hl=en&key=notsupplied&v=1.0&q='open+file+in+ruby%0A&filter=1
     self.uri = 'http://www.google.com/uds/GwebSearch?start=0&rsz=large&hl=en&key=notsupplied&v=1.0&'
   end
 
-  def search(query, num_of_pages = 1)
+  def search(query)
     results = []
     
     # TODO: Replace with our own code
@@ -18,8 +16,10 @@ class SearchEngine
       search.query = query
       search.size = :large
     end
-    puts se.inspect
-    puts se.get_uri
+    
+    # puts se.inspect
+    # puts se.get_uri
+    
     se.each { |item| results << item }
 
     return results
@@ -30,7 +30,6 @@ class SearchEngine
     quri = URI.encode_www_form( 'q' => query )
     return self.uri + quri + '%0A&filter=1'	
   end
-
 end
 
 =begin
