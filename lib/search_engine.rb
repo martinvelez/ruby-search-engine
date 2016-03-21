@@ -1,4 +1,5 @@
 require 'google-search'
+# require 'json'
 # require 'ruby_cli'
 
 class SearchEngine
@@ -18,7 +19,7 @@ class SearchEngine
     end
     
     # puts se.inspect
-    # puts se.get_uri
+    puts se.get_uri
     
     se.each { |item| results << item }
 
@@ -27,8 +28,9 @@ class SearchEngine
 
   def get_uri(query)
     query.strip!
-    quri = URI.encode_www_form( 'q' => query )
-    return self.uri + quri + '%0A&filter=1'	
+    q_uri = URI.encode_www_form( 'q' => query )
+    self.uri << q_uri << '&filter=1'
+    return self.uri	
   end
 end
 
