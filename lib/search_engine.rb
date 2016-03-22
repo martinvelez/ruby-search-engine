@@ -1,5 +1,5 @@
 require 'google-search'
-# require 'json'
+require 'json'
 # require 'ruby_cli'
 
 class SearchEngine
@@ -12,16 +12,26 @@ class SearchEngine
   def search(query)
     results = []
     
+    #####################################################
+
     # TODO: Replace with our own code
-    se = Google::Search::Web.new do |search|
-      search.query = query
-      search.size = :large
+    # se = Google::Search::Web.new do |search|
+    #   search.query = query
+    #   search.size = :large
+    # end
+    
+    # # puts se.inspect
+    # puts se.get_uri
+    # se.each { |item| results << item }
+    
+    #####################################################
+   
+    file = open(get_uri(query))
+    my_hash = JSON.parse(file.read)
+
+    (0 .. my_hash["responseData"]["results"].size - 1).each do |index|
+      results << my_hash["responseData"]["results"][index]["url"]
     end
-    
-    # puts se.inspect
-    puts se.get_uri
-    
-    se.each { |item| results << item }
 
     return results
   end
@@ -29,15 +39,6 @@ class SearchEngine
   def get_uri(query)
     query.strip!
     q_uri = URI.encode_www_form( 'q' => query )
-    self.uri << q_uri << '&filter=1'
-    return self.uri	
+    return self.uri + q_uri + "&filter=1"
   end
 end
-
-=begin
-query = "C++ how to initialize array"
-search_engine = SearchEngine.new()
-results = search_engine.search(query)
-puts search_engine.get_uri(query)
-# puts results
-=end

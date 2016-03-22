@@ -4,14 +4,13 @@ GEM
     google-search (1.0.3)
       json
     json (1.8.3)
-    ruby_cli (0.2.1)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
   google-search
-  ruby_cli
+  json
 
 BUNDLED WITH
    1.11.2
