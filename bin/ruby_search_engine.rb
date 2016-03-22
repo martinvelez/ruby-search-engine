@@ -8,8 +8,8 @@ query = ARGV.join(" ") # ARGF.read
 search_engine = SearchEngine.new
 results = search_engine.search(query)
 
-puts search_engine.get_uri(query)
-puts results.uri
+#puts search_engine.get_uri(query)
+#puts results.inspect
 
 # results.each do |r|
 # 	puts "#{r.title}\t#{r.url}"

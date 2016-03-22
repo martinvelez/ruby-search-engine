@@ -10,7 +10,7 @@ class SearchEngine
     self.results = []
   end
 
-  def search(query)
+  def search(query, fields = [])
     #####################################################
 
     # TODO: Replace with our own code
@@ -27,6 +27,23 @@ class SearchEngine
    
     file = open(get_uri(query))
     my_hash = JSON.parse(file.read)
+
+		puts '************************'	
+		results = my_hash["responseData"]["results"]
+		puts '************************'	
+
+		if fields.size > 0
+			new_results = []			
+			fields.each do |f|
+				results.each do |r|
+					if !r.has_key(f)
+						new_results << 
+					end
+				end
+			end
+		end
+
+
     results = SearchEngine::Results.new
     results.get_results(my_hash)
     
