@@ -15,7 +15,7 @@ class SearchEngine
     my_hash = JSON.parse(file.read)
 		hash_results = my_hash["responseData"]["results"]
 
-		if fields.size > 0
+		unless fields.empty?
 			index = 0
 
 			fields.each do |f|
