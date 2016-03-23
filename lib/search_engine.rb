@@ -12,7 +12,7 @@ class SearchEngine
 
   def search(query, *fields)
     if query.empty?
-      puts "Error: No query supplied"
+      abort("Error: No query supplied")
     end
     
     file = open(get_uri(query))
