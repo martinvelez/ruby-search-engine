@@ -10,7 +10,11 @@ class SearchEngine
     self.results = []
   end
 
-  def search(query, fields)
+  def search(query, *fields)
+    if query.empty?
+      puts "Error: No query supplied"
+    end
+    
     file = open(get_uri(query))
     my_hash = JSON.parse(file.read)
 		hash_results = my_hash["responseData"]["results"]
@@ -19,8 +23,8 @@ class SearchEngine
 			index = 0
 
 			fields.each do |f|
-				hash_results.each do |r|
-					if r.has_key?(f)
+				hash_results.each do |hr|
+					if hr.has_key?(f)
 						results << hash_results[index][f]
 						index += 1
 					end
