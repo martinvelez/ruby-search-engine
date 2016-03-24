@@ -1,6 +1,5 @@
 require 'google-search'
 require 'json'
-# require 'active_support'
 # require 'ruby_cli'
 
 class SearchEngine
@@ -12,12 +11,8 @@ class SearchEngine
   end
 
   def search(query, *fields)
-    # options = fields.extract_options!
-    # puts "Arguments:  #{fields.inspect}"
-    # puts "Options:    #{options.inspect}"
-    
     if query.empty?
-      abort("Error: No query supplied")
+      abort "Error: No query supplied"
     end
     
     file = open(get_uri(query))
@@ -25,21 +20,38 @@ class SearchEngine
 		hash_results = my_hash["responseData"]["results"]
 
     if fields.empty?
-      puts "No fields given"
-      puts "Your options are #{hash_results[0].keys}"
-
+      puts "Error: No fields given. Your options are: "
+    
+      hash_results[0].keys.each do |hr_keys|
+        puts "\t#{hr_keys}"
+      end
+      
+      $stdout.sync = true
+      abort
+      
+    elsif fields.include? "all" and fields.length > 1
+  	  abort "Error: Either use \"all\" or the options"
+  	  
     elsif fields.include? "all"
       hash_results[0].keys.each do |hr_keys|
         index = 0
+        
+        results << "--------------------"
+        results << hr_keys
+        results << "--------------------"
+    
         hash_results.each do |hr|
-  				results << hash_results[index][hr_keys]
+  				results << "#{index}. " + hash_results[index][hr_keys]
   				index += 1
   		  end
+  		  
+  		  results << "\n\n"
   		end
       
 		else
 			fields.each do |f|
 			  index = 0
+			  
 				hash_results.each do |hr|
 					if hr.has_key?(f)
 						results << hash_results[index][f]
