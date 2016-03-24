@@ -27,7 +27,15 @@ class SearchEngine
     if fields.empty?
       puts "No fields given"
       puts "Your options are #{hash_results[0].keys}"
-      # return all results
+
+    elsif fields.include? "all"
+      hash_results[0].keys.each do |hr_keys|
+        index = 0
+        hash_results.each do |hr|
+  				results << hash_results[index][hr_keys]
+  				index += 1
+  		  end
+  		end
       
 		else
 			fields.each do |f|
