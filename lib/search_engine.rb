@@ -1,5 +1,6 @@
 require 'google-search'
 require 'json'
+# require 'active_support'
 # require 'ruby_cli'
 
 class SearchEngine
@@ -11,6 +12,10 @@ class SearchEngine
   end
 
   def search(query, *fields)
+    # options = fields.extract_options!
+    # puts "Arguments:  #{fields.inspect}"
+    # puts "Options:    #{options.inspect}"
+    
     if query.empty?
       abort("Error: No query supplied")
     end
@@ -19,10 +24,14 @@ class SearchEngine
     my_hash = JSON.parse(file.read)
 		hash_results = my_hash["responseData"]["results"]
 
-		unless fields.empty?
-			index = 0
-
+    if fields.empty?
+      puts "No fields given"
+      puts "Your options are #{hash_results[0].keys}"
+      # return all results
+      
+		else
 			fields.each do |f|
+			  index = 0
 				hash_results.each do |hr|
 					if hr.has_key?(f)
 						results << hash_results[index][f]
@@ -30,7 +39,7 @@ class SearchEngine
 					end
 				end
 			end
-		end
+    end
     
     return results
   end
