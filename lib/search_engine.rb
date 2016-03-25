@@ -46,7 +46,7 @@ class SearchEngine
 
   def open_file(query)
     file = open(get_uri(query))
-    my_hash = JSON.parse(file.read)
+    my_hash = JSON.parse(file.read, symbolize_names: true)
     return my_hash
   end
   
@@ -69,17 +69,17 @@ class SearchEngine
   
   def get_result_count(query)
     cursor_hash = open_file(query)
-    return cursor_hash["responseData"]["cursor"]["resultCount"]
+    return cursor_hash[:responseData][:cursor][:resultCount]
   end
   
   def get_search_time(query)
     cursor_hash = open_file(query)
-    return cursor_hash["responseData"]["cursor"]["searchResultTime"]
+    return cursor_hash[:responseData][:cursor][:searchResultTime]
   end
   
   def get_hash(query)
     results_hash = open_file(query)
-		return results_hash["responseData"]["results"]
+		return results_hash[:responseData][:results]
   end
   
   def get_all(hash_results)
