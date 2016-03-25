@@ -6,12 +6,13 @@ class SearchEngine
   attr_accessor :uri, :results
 
   def initialize
-    self.uri = 'http://www.google.com/uds/GwebSearch?start=0&rsz=large&hl=en&key=notsupplied&v=1.0&'
+    self.uri = "http://www.google.com/uds/GwebSearch?start="
     self.results = []
   end
 
   def search(query, *fields, page: 1)
-    puts "page # is: #{page}"
+    set_page(page)
+    # puts "page # is: #{page}"
     
     if query.empty?
       abort "Error: No query supplied"
@@ -42,6 +43,11 @@ class SearchEngine
     end
     
     return results
+  end
+
+  def set_page(page)
+    start = (page - 1) * 8
+    self.uri << "#{start}&rsz=large&hl=en&key=notsupplied&v=1.0&"
   end
 
   def open_file(query)
