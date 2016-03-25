@@ -10,43 +10,23 @@ class SearchEngine
     self.results = []
   end
 
-  def search(query, *fields)
+  def search(query, *fields, page: 1)
+    puts "page # is: #{page}"
+    
     if query.empty?
       abort "Error: No query supplied"
     end
     
-    file = open(get_uri(query))
-    my_hash = JSON.parse(file.read)
-		hash_results = my_hash["responseData"]["results"]
+    hash_results = get_hash(query)
 
     if fields.empty?
-      puts "Error: No fields given. Your options are: "
-    
-      hash_results[0].keys.each do |hr_keys|
-        puts "\t#{hr_keys}"
-      end
-      
-      $stdout.sync = true
-      abort
+      no_fields_error(hash_results)
       
     elsif fields.include? "all" and fields.length > 1
   	  abort "Error: Either use \"all\" or the options"
   	  
     elsif fields.include? "all"
-      hash_results[0].keys.each do |hr_keys|
-        index = 0
-        
-        results << "--------------------"
-        results << hr_keys
-        results << "--------------------"
-    
-        hash_results.each do |hr|
-  				results << "#{index}. " + hash_results[index][hr_keys]
-  				index += 1
-  		  end
-  		  
-  		  results << "\n\n"
-  		end
+      get_all(hash_results)
       
 		else
 			fields.each do |f|
@@ -68,5 +48,39 @@ class SearchEngine
     query.strip!
     q_uri = URI.encode_www_form( 'q' => query )
     return self.uri + q_uri + "&filter=1"
+  end
+  
+  def get_hash(query)
+    file = open(get_uri(query))
+    my_hash = JSON.parse(file.read)
+		return my_hash["responseData"]["results"]
+  end
+  
+  def no_fields_error(hash_results)
+    puts "Error: No fields given. Your options are: "
+    
+    hash_results[0].keys.each do |hr_keys|
+      puts "\t#{hr_keys}"
+    end
+    
+    $stdout.sync = true
+    abort
+  end
+  
+  def get_all(hash_results)
+    hash_results[0].keys.each do |hr_keys|
+      index = 0
+      
+      results << "--------------------"
+      results << hr_keys
+      results << "--------------------"
+  
+      hash_results.each do |hr|
+				results << "#{index}. " + hash_results[index][hr_keys]
+				index += 1
+		  end
+		  
+		  results << "\n\n"
+		end
   end
 end
