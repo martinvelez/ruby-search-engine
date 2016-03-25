@@ -6,14 +6,13 @@ class SearchEngine
   attr_accessor :uri, :results
 
   def initialize
-    self.uri = "http://www.google.com/uds/GwebSearch?start="
+    self.uri = "http://www.google.com/uds/GwebSearch?start=0&rsz=large&hl=en&key=notsupplied&v=1.0&"
     self.results = []
   end
 
   def search(query, *fields, page: 1)
     set_page(page)
-    # puts "page # is: #{page}"
-    
+
     if query.empty?
       abort "Error: No query supplied"
     end
@@ -23,10 +22,10 @@ class SearchEngine
     if fields.empty?
       no_fields_error(hash_results)
       
-    elsif fields.include? "all" and fields.length > 1
+    elsif fields.include? :all and fields.length > 1
   	  abort "Error: Either use \"all\" or the options"
   	  
-    elsif fields.include? "all"
+    elsif fields.include? :all
       get_all(hash_results)
       
 		else
@@ -47,6 +46,8 @@ class SearchEngine
 
   def set_page(page)
     start = (page - 1) * 8
+    self.uri.chomp! "&rsz=large&hl=en&key=notsupplied&v=1.0&"
+    self.uri.chop!
     self.uri << "#{start}&rsz=large&hl=en&key=notsupplied&v=1.0&"
   end
 
