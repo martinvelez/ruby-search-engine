@@ -1,4 +1,3 @@
-require 'google-search'
 require 'json'
 # require 'ruby_cli'
 
