@@ -21,7 +21,7 @@ class SearchEngine
       get_results(fields, hash_results)
           
     elsif page.is_a? String
-      for i in page[0]..page[2]
+      for i in page[0] .. page[2]
         set_page(i)
         hash_results = get_hash(query)
         get_results(fields, hash_results)
@@ -67,7 +67,7 @@ class SearchEngine
   
   def get_results(fields, hash_results)
     if fields.empty?
-          no_fields_error(hash_results)
+      no_fields_error(hash_results)
           
     elsif fields.include? :all and fields.length > 1
   	  abort "Error: Either use \"all\" or the options"
