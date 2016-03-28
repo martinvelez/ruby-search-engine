@@ -11,40 +11,31 @@ class SearchEngine
   end
 
   def search(query, *fields, page: 1)
-    set_page(page)
-
     if query.empty?
       abort "Error: No query supplied"
     end
-    
-    hash_results = get_hash(query)
 
-    if fields.empty?
-      no_fields_error(hash_results)
-      
-    elsif fields.include? :all and fields.length > 1
-  	  abort "Error: Either use \"all\" or the options"
-  	  
-    elsif fields.include? :all
-      get_all(hash_results)
-      
-		else
-			fields.each do |f|
-			  index = 0
-			  
-				hash_results.each do |hr|
-					if hr.has_key?(f)
-						results << hash_results[index][f]
-						index += 1
-					end
-				end
-			end
+    if page.is_a? Integer
+      set_page(page)
+      hash_results = get_hash(query)
+      get_results(fields, hash_results)
+          
+    elsif page.is_a? String
+      for i in page[0]..page[2]
+        set_page(i)
+        hash_results = get_hash(query)
+        get_results(fields, hash_results)
+      end
     end
     
     return results
   end
 
   def set_page(page)
+    if page.is_a? String
+      page = page.to_i
+    end
+    
     start = (page - 1) * 8
     self.uri.chomp! "&rsz=large&hl=en&key=notsupplied&v=1.0&"
     self.uri.chop!
@@ -72,6 +63,30 @@ class SearchEngine
     query.strip!
     q_uri = URI.encode_www_form( 'q' => query )
     return self.uri + q_uri + "&filter=1"
+  end
+  
+  def get_results(fields, hash_results)
+    if fields.empty?
+          no_fields_error(hash_results)
+          
+    elsif fields.include? :all and fields.length > 1
+  	  abort "Error: Either use \"all\" or the options"
+  	  
+    elsif fields.include? :all
+      get_all(hash_results)
+      
+		else
+			fields.each do |f|
+			  index = 0
+			  
+				hash_results.each do |hr|
+					if hr.has_key?(f)
+						results << hash_results[index][f]
+						index += 1
+					end
+				end
+			end
+    end
   end
   
   def get_result_count(query)
