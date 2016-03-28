@@ -1,4 +1,5 @@
 require 'json'
+require 'open-uri'
 # require 'ruby_cli'
 
 class SearchEngine
@@ -60,7 +61,7 @@ class SearchEngine
 
   def get_uri(query)
     query.strip!
-    q_uri = URI.encode_www_form( 'q' => query )
+    q_uri = URI.encode_www_form('q' => query)
     return self.uri + q_uri + "&filter=1"
   end
   
