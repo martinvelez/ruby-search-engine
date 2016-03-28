@@ -5,10 +5,12 @@ require 'open-uri'
 class SearchEngine
   attr_accessor :uri, :results
 
+
   def initialize
     self.uri = "http://www.google.com/uds/GwebSearch?start=0&rsz=large&hl=en&key=notsupplied&v=1.0&"
     self.results = []
   end
+
 
   def search(query, *fields, page: 1)
     if query.empty?
@@ -31,6 +33,7 @@ class SearchEngine
     return results
   end
 
+
   def set_page(page)
     if page.is_a? String
       page = page.to_i
@@ -41,12 +44,14 @@ class SearchEngine
     self.uri.chop!
     self.uri << "#{start}&rsz=large&hl=en&key=notsupplied&v=1.0&"
   end
-
+  
+  
   def open_file(query)
     file = open(get_uri(query))
     my_hash = JSON.parse(file.read, symbolize_names: true)
     return my_hash
   end
+  
   
   def no_fields_error(hash_results)
     puts "Error: No fields given. Your options are: "
@@ -59,11 +64,13 @@ class SearchEngine
     abort
   end
 
+
   def get_uri(query)
     query.strip!
     q_uri = URI.encode_www_form('q' => query)
     return self.uri + q_uri + "&filter=1"
   end
+  
   
   def get_results(fields, hash_results)
     if fields.empty?
@@ -89,20 +96,24 @@ class SearchEngine
     end
   end
   
+  
   def get_result_count(query)
     cursor_hash = open_file(query)
     return cursor_hash[:responseData][:cursor][:resultCount]
   end
+  
   
   def get_search_time(query)
     cursor_hash = open_file(query)
     return cursor_hash[:responseData][:cursor][:searchResultTime]
   end
   
+  
   def get_hash(query)
     results_hash = open_file(query)
 		return results_hash[:responseData][:results]
   end
+  
   
   def get_all(hash_results)
     hash_results[0].keys.each do |hr_keys|
