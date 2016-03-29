@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
 	s.name = 'ruby-search-engine'
 	s.version = '0.0.0'
-	s.executables = ['ruby-search-engine']
+	s.executables = ['ruby_search_engine.rb']
 	s.date = '2016-03-29'
 	s.summary = "Search the web using Ruby"
 	s.description = "Search the web using Ruby with this fast and lightweight gem."
