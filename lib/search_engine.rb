@@ -1,6 +1,5 @@
 require 'json'
 require 'open-uri'
-# require 'ruby_cli'
 
 class SearchEngine
   attr_accessor :uri, :results
@@ -13,35 +12,18 @@ class SearchEngine
   end
 
 
-  def search(query, *fields, page: 1, top: 8 * fields.size)
+  def search(query, *fields, pages: 1)
     if query.empty?
-      abort "Error: No query supplied."
+      abort "Error: No query given"
     end
-
-    if page.is_a? Integer
-      set_page(page)
+    
+    for i in 1 .. pages
+      set_page(i)
       hash_results = get_hash(query)
-      get_results(fields, hash_results, top)
-          
-    elsif page.is_a? String
-      if top == 8 * fields.size
-        top = 8 * page[2 .. page.size].to_i
-      end
-    
-      for i in page[0].to_i .. page[2 .. page.size].to_i
-        # puts i
-        set_page(i)
-        hash_results = get_hash(query)
-        get_results(fields, hash_results, top)
-      end
-    end
-  
-    if top > results.size and top > 8 * fields.size
-      abort "The search does not have that many top results.\n"\
-            "Please try again with top parameter <= #{results.size}"
+      get_results(fields, hash_results)
     end
     
-    return results.take(top)
+    return results
   end
 
 
@@ -83,7 +65,7 @@ class SearchEngine
   end
   
   
-  def get_results(fields, hash_results, top)
+  def get_results(fields, hash_results)
     if fields.empty?
       no_fields_error(hash_results)
       
