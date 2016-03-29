@@ -10,5 +10,5 @@ Gem::Specification.new do |s|
 	s.files = Dir["{lib,bin}/**/*"] + ["README.rdoc"]
 	s.homepage = 'http://github.com/martinvelez/ruby-search-engine'
 	s.require_paths = ["bin", "lib"]
-	#s.add_dependency('ruby_cli', '>=0.2.0')
+	s.add_dependency('ruby_cli', '>=0.2.0')
 end
