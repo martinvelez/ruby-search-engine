@@ -13,54 +13,40 @@ class SearchEngine
 
 
   def search(query, *fields, pages: 1)
-    if query.empty?
-      raise "No query given"
-    end
+    raise "No query given" if query.empty?
     
-    for i in 1 .. pages
-      set_page(i)
-      hash_results = get_hash(query)
-      get_results(fields, hash_results)
+    for i in 1..pages
+			uri = build_url(query, i)
+			file = open(uri)
+    	my_hash = JSON.parse(file.read, symbolize_names: true)
+      raise "Page is out of bounds" unless !my_hash[:responseData].nil?
+			hash_results = my_hash[:responseData][:results]
+      extract_fields(fields, hash_results)
     end
     
     return results
   end
 
 
-  def set_page(page)
-    start = (page - 1) * 8
+	def build_url(query, page)
+		start = (page - 1) * 8
     self.uri.chomp! "&rsz=large&hl=en&key=notsupplied&v=1.0&"
     
     while self.uri[-1, 1] != "=" do
       self.uri.chop!
     end
-    
     self.uri << "#{start}&rsz=large&hl=en&key=notsupplied&v=1.0&"
-  end
-  
-  
-  def open_file(query)
-		uri = get_uri(query)
-		puts "URI"
-		puts uri
-    file = open(get_uri(query))
-    my_hash = JSON.parse(file.read, symbolize_names: true)
 
-		return my_hash
-  end
-
-
-  def get_uri(query)
-    query.strip!
+		query.strip!
     q_uri = URI.encode_www_form('q' => query)
+
     return self.uri + q_uri + "&filter=1"
-  end
+	end
+
   
-  
-  def get_results(fields, hash_results)
+  def extract_fields(fields, hash_results)
     if fields.empty?
       raise "No fields given."
-      
     else
       fields.each do |f|
         index = 0
@@ -86,15 +72,4 @@ class SearchEngine
     return cursor_hash[:responseData][:cursor][:searchResultTime]
   end
   
-  
-  def get_hash(query)
-    results_hash = open_file(query)
-	
-    if results_hash[:responseData].nil?
-      raise "Page is out of bounds"
-    end
-
-    return results_hash[:responseData][:results]
-  end
-
 end

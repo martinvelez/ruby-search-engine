@@ -10,7 +10,7 @@ class App
 		@options = {:pages => 1}
 	end
 	def define_command_option_parsing
-		@opt_parser.on('-p', '--pages RANGE', String, 'what pages you want') do |pages|
+		@opt_parser.on('-p', '--pages RANGE', Integer, 'what pages you want') do |pages|
 			@options[:pages] = pages
 		end
 	end	
@@ -18,7 +18,11 @@ class App
 	def command
 		query = ARGV.join(" ") # ARGF.read
 		search_engine = SearchEngine.new
-		results = search_engine.search(query, :url, pages: 2)
+		begin
+			results = search_engine.search(query, :url, pages: @options[:pages])
+		rescue Exception => e
+			puts e
+		end
 		puts results
 	end
 
