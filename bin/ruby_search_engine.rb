@@ -16,13 +16,15 @@ class App
 	end	
 
 	def command
-		query = ARGV.join(" ") # ARGF.read
+		query = ARGV.join(" ")
 		search_engine = SearchEngine.new
+		
 		begin
 			results = search_engine.search(query, :url, pages: @options[:pages])
 		rescue Exception => e
 			puts e
 		end
+		
 		puts results
 	end
 

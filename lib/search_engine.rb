@@ -2,17 +2,17 @@ require 'json'
 require 'open-uri'
 
 class SearchEngine
-  attr_accessor :uri, :results
+  attr_accessor :uri
 
 
   def initialize
     self.uri = "http://www.google.com/uds/GwebSearch?start=0"\
                "&rsz=large&hl=en&key=notsupplied&v=1.0&"
-    self.results = []
   end
 
 
   def search(query, *fields, pages: 1)
+    results = []
     raise "No query given" if query.empty?
     
     for i in 1..pages
@@ -21,7 +21,7 @@ class SearchEngine
     	my_hash = JSON.parse(file.read, symbolize_names: true)
       raise "Page is out of bounds" unless !my_hash[:responseData].nil?
 			hash_results = my_hash[:responseData][:results]
-      extract_fields(fields, hash_results)
+      results << extract_fields(fields, hash_results)
     end
     
     return results
@@ -35,6 +35,7 @@ class SearchEngine
     while self.uri[-1, 1] != "=" do
       self.uri.chop!
     end
+    
     self.uri << "#{start}&rsz=large&hl=en&key=notsupplied&v=1.0&"
 
 		query.strip!
@@ -45,6 +46,7 @@ class SearchEngine
 
   
   def extract_fields(fields, hash_results)
+    extracted_results = []
     if fields.empty?
       raise "No fields given."
     else
@@ -53,13 +55,16 @@ class SearchEngine
         
         hash_results.each do |hr|
           if hr.has_key?(f)
-            results << hash_results[index][f]
+            extracted_results << hash_results[index][f]
             index += 1
           end
         end
       end
     end
+    
+    return extracted_results
   end
+  
   
   def get_result_count(query)
     cursor_hash = open_file(query)
