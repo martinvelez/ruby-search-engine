@@ -6,11 +6,12 @@ License:: MIT
 
 = Description 
 
+# Coming soon...
 Search the web using Ruby.
 
 = Design
 
-# TODO
+# Coming soon...
 
 = Installation
  gem install ruby-search-engines
@@ -21,11 +22,12 @@ Search the web using Ruby.
 
 = Usage
 
-You can simply run the executable and provide input via STDIN. 
- ruby_search_engine QUERY
+You can simply provide input via STDIN. 
+ ruby ruby_search_engine.rb QUERY
 
-You can also provide input via one or more filenames
- ruby_search_engine [FILES]
+You can also run the executable via the ruby_cli gem.
+ ./ruby_search_engine.rb c++ how to initialize an array
+ ./ruby_search_engine.rb -p 2 c++ how to initialize an array
 
 = Dependencies
 
@@ -34,7 +36,7 @@ You can also provide input via one or more filenames
 
 = TODO
 
-* Test to determine limits of current approach which parses and stores n-grams in memory. 
+* Test to determine limits of current approach which parses and stores JSON object. 
 
 = Source Code
  https://github.com/martinvelez/ruby-search-engine
