@@ -7,41 +7,52 @@ class SearchEngine
 
 
   def initialize
-    self.uri = "http://www.google.com/uds/GwebSearch?start=0&rsz=large&hl=en&key=notsupplied&v=1.0&"
+    self.uri = "http://www.google.com/uds/GwebSearch?start=0&"\
+                "rsz=large&hl=en&key=notsupplied&v=1.0&"
     self.results = []
   end
 
 
-  def search(query, *fields, page: 1)
+  def search(query, *fields, page: 1, top: 8 * fields.size)
     if query.empty?
-      abort "Error: No query supplied"
+      abort "Error: No query supplied."
     end
 
     if page.is_a? Integer
       set_page(page)
       hash_results = get_hash(query)
-      get_results(fields, hash_results)
+      get_results(fields, hash_results, top)
           
     elsif page.is_a? String
-      for i in page[0] .. page[2]
+      if top == 8 * fields.size
+        top = 8 * page[2 .. page.size].to_i
+      end
+    
+      for i in page[0].to_i .. page[2 .. page.size].to_i
+        # puts i
         set_page(i)
         hash_results = get_hash(query)
-        get_results(fields, hash_results)
+        get_results(fields, hash_results, top)
       end
     end
+  
+    if top > results.size and top > 8 * fields.size
+      abort "The search does not have that many top results.\n"\
+            "Please try again with top parameter <= #{results.size}"
+    end
     
-    return results
+    return results.take(top)
   end
 
 
   def set_page(page)
-    if page.is_a? String
-      page = page.to_i
-    end
-    
     start = (page - 1) * 8
     self.uri.chomp! "&rsz=large&hl=en&key=notsupplied&v=1.0&"
-    self.uri.chop!
+    
+    while self.uri[-1, 1] != "=" do
+      self.uri.chop!
+    end
+    
     self.uri << "#{start}&rsz=large&hl=en&key=notsupplied&v=1.0&"
   end
   
@@ -72,27 +83,21 @@ class SearchEngine
   end
   
   
-  def get_results(fields, hash_results)
+  def get_results(fields, hash_results, top)
     if fields.empty?
       no_fields_error(hash_results)
-          
-    elsif fields.include? :all and fields.length > 1
-  	  abort "Error: Either use \"all\" or the options"
-  	  
-    elsif fields.include? :all
-      get_all(hash_results)
       
-		else
-			fields.each do |f|
-			  index = 0
-			  
-				hash_results.each do |hr|
-					if hr.has_key?(f)
-						results << hash_results[index][f]
-						index += 1
-					end
-				end
-			end
+    else
+      fields.each do |f|
+        index = 0
+        
+        hash_results.each do |hr|
+          if hr.has_key?(f)
+            results << hash_results[index][f]
+            index += 1
+          end
+        end
+      end
     end
   end
   
@@ -111,24 +116,11 @@ class SearchEngine
   
   def get_hash(query)
     results_hash = open_file(query)
-		return results_hash[:responseData][:results]
-  end
-  
-  
-  def get_all(hash_results)
-    hash_results[0].keys.each do |hr_keys|
-      index = 0
-      
-      results << "--------------------"
-      results << hr_keys
-      results << "--------------------"
-  
-      hash_results.each do |hr|
-				results << "#{index}. " + hash_results[index][hr_keys]
-				index += 1
-		  end
-		  
-		  results << "\n\n"
-		end
+    
+    if results_hash[:responseData].nil?
+      abort "Error: Page is out of bounds"
+    end
+    
+    return results_hash[:responseData][:results]
   end
 end
