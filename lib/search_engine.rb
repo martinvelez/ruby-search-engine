@@ -6,15 +6,15 @@ class SearchEngine
 
 
   def initialize
-    self.uri = "http://www.google.com/uds/GwebSearch?start=0&"\
-                "rsz=large&hl=en&key=notsupplied&v=1.0&"
+    self.uri = "http://www.google.com/uds/GwebSearch?start=0"\
+               "&rsz=large&hl=en&key=notsupplied&v=1.0&"
     self.results = []
   end
 
 
   def search(query, *fields, pages: 1)
     if query.empty?
-      abort "Error: No query given"
+      raise "No query given"
     end
     
     for i in 1 .. pages
@@ -44,18 +44,6 @@ class SearchEngine
     my_hash = JSON.parse(file.read, symbolize_names: true)
     return my_hash
   end
-  
-  
-  def no_fields_error(hash_results)
-    puts "Error: No fields given. Your options are: "
-    
-    hash_results[0].keys.each do |hr_keys|
-      puts "\t#{hr_keys}"
-    end
-    
-    $stdout.sync = true
-    abort
-  end
 
 
   def get_uri(query)
@@ -67,7 +55,7 @@ class SearchEngine
   
   def get_results(fields, hash_results)
     if fields.empty?
-      no_fields_error(hash_results)
+      raise "No fields given."
       
     else
       fields.each do |f|
@@ -100,9 +88,9 @@ class SearchEngine
     results_hash = open_file(query)
     
     if results_hash[:responseData].nil?
-      abort "Error: Page is out of bounds"
+      raise "Page is out of bounds"
     end
-    
+
     return results_hash[:responseData][:results]
   end
 end

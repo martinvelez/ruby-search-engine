@@ -15,4 +15,4 @@ results = search_engine.search(query, :url, pages: 2)
 # puts search_engine.get_search_time(query)
 # puts search_engine.get_uri(query)
 puts results
-puts results.size
+# puts results.size
