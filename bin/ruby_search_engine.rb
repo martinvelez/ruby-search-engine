@@ -7,7 +7,7 @@ class App
 	include RubyCLI
 
 	def initialize_command_options
-		@options = {:pages => "1-1"}
+		@options = {:pages => 1}
 	end
 	def define_command_option_parsing
 		@opt_parser.on('-p', '--pages RANGE', String, 'what pages you want') do |pages|
@@ -18,7 +18,7 @@ class App
 	def command
 		query = ARGV.join(" ") # ARGF.read
 		search_engine = SearchEngine.new
-		results = search_engine.search(query, :url, page: @options[:pages], top: 8)
+		results = search_engine.search(query, :url, pages: 2)
 		puts results
 	end
 
