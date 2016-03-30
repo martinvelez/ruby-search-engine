@@ -33,7 +33,7 @@ Fields/options:
 * titleNoFormatting
 * content
   
-Note: fields must be entered as a symbol, ie. :url
+**Note: fields must be entered as a symbol, ie. :url**
 
 = Installation
  gem install ruby-search-engine
@@ -82,10 +82,10 @@ To specify the number of pages wanted:
 = TODO
 
 * Further optimization?
- * Test to determine limits of current approach, which parses and stores JSON objects.
+  * Test to determine limits of current approach, which parses and stores JSON objects.
  
 * Future features
- * Different search engines?
+  * Different search engines?
 
 = Source Code
  https://github.com/martinvelez/ruby-search-engine
