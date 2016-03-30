@@ -44,6 +44,7 @@ pages will be returned. The usage section provides examples of this.
 For a full example, go to bin/ruby_search_engine.rb
 
 From within your app:
+Specify your query:
  query = ARGV.join(" ")
  # gets query from command line, also can use ARGF.read
  # or
@@ -51,6 +52,7 @@ From within your app:
  query = "my query"
  # query can be any string
 
+Instantiate the search engine:
 	search_engine = SearchEngine.new
 	results = search_engine.search(query, :url, pages: 2)
 	# Calls the search method with the query, url for the field and 2 pages.
