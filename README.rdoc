@@ -46,17 +46,17 @@ For a full example, go to bin/ruby_search_engine.rb
 From within your app:
 
 ```ruby
-query = ARGV.join(" ")
-# gets query from command line, also can use ARGF.read
-# or
-
-query = "my query"
-# query can be any string
-
-search_engine = SearchEngine.new
-results = search_engine.search(query, :url, pages: 2)
-# Calls the search method with the query, url for the field and 2 pages.
-# results will be an array containing the first 2 pages worth of urls.
+ query = ARGV.join(" ")
+ # gets query from command line, also can use ARGF.read
+ # or
+ 
+ query = "my query"
+ # query can be any string
+ 
+ search_engine = SearchEngine.new
+ results = search_engine.search(query, :url, pages: 2)
+ # Calls the search method with the query, url for the field and 2 pages.
+ # results will be an array containing the first 2 pages worth of urls.
 ```
 
 You can also provide input via STDIN on the command line.
