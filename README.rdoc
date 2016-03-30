@@ -12,8 +12,7 @@ this aims to be minimal, easy to use and most importantly, quick. For
 any inquiries, please feel free to contact us via email or a pull request.
 I hope you enjoy using the ruby-search-engine as much as we have had while making it!
 
-Thank you,
-Matt Le
+-Matt Le
 
 = Design
 
@@ -39,43 +38,43 @@ pages will be returned. The usage section provides examples of this.
 = Installation
  gem install ruby-search-engine
 
-= Alternative Tools
-
-* google-search[https://github.com/tj/google-search]
 
 = Usage
 
 For a full example, go to bin/ruby_search_engine.rb
 
 From within your app:
-  query = ARGV.join(" ")
-  # gets query from command line, also can use ARGF.read
-  # or
-  
-  query = "my query"
-  # query can be any string
-  
-		search_engine = SearchEngine.new
-		results = search_engine.search(query, :url, pages: 2)
-		# Calls the search method with the query, url for the field and 2 pages.
-		# results will be an array containing the first 2 pages worth of urls.
+ query = ARGV.join(" ")
+ # gets query from command line, also can use ARGF.read
+ # or
+ 
+ query = "my query"
+ # query can be any string
+
+	search_engine = SearchEngine.new
+	results = search_engine.search(query, :url, pages: 2)
+	# Calls the search method with the query, url for the field and 2 pages.
+	# results will be an array containing the first 2 pages worth of urls.
 
 You can also provide input via STDIN on the command line.
  ruby ruby_search_engine.rb QUERY
 
-You can also run the executable via the ruby_cli gem which can help you
- make a command line app.
+You can also run the executable via the ruby_cli gem which can help you make a command line app.
  
- For a simple query, defaults to 1 page of results:
+For a simple query, defaults to 1 page of results:
  ./ruby_search_engine.rb QUERY
  
- To specify the number of pages wanted:
+To specify the number of pages wanted:
  ./ruby_search_engine.rb -p 2 QUERY
 
 = Dependencies
 
 * Ruby 1.9.1 or greater
 * ruby_cli[https://github.com/martinvelez/ruby_cli] to run the gem executable (optional)
+
+= Alternative Tools
+
+* google-search[https://github.com/tj/google-search]
 
 = TODO
 
