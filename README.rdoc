@@ -23,7 +23,7 @@ Ruby hash. From there, depending on the fields entered, the search() method
 will return the desired fields. There is also the option to specify how many
 pages will be returned. The usage section provides examples of this.
 
- Fields/options: 
+Fields/options: 
 * GsearchResultClass
 * unescapedUrl
 * url
@@ -33,7 +33,7 @@ pages will be returned. The usage section provides examples of this.
 * titleNoFormatting
 * content
   
- Note: fields must be entered as a symbol, ie. :url
+Note: fields must be entered as a symbol, ie. :url
 
 = Installation
  gem install ruby-search-engine
@@ -44,7 +44,8 @@ pages will be returned. The usage section provides examples of this.
 For a full example, go to bin/ruby_search_engine.rb
 
 From within your app:
-```
+
+```ruby
 query = ARGV.join(" ")
 # gets query from command line, also can use ARGF.read
 # or
@@ -57,16 +58,17 @@ results = search_engine.search(query, :url, pages: 2)
 # Calls the search method with the query, url for the field and 2 pages.
 # results will be an array containing the first 2 pages worth of urls.
 ```
+
 You can also provide input via STDIN on the command line.
- > ruby ruby_search_engine.rb QUERY
+ $ ruby ruby_search_engine.rb QUERY
 
 You can also run the executable via the ruby_cli gem which can help you make a command line app.
  
 For a simple query, defaults to 1 page of results:
- > ./ruby_search_engine.rb QUERY
+ $ ./ruby_search_engine.rb QUERY
  
 To specify the number of pages wanted:
- > ./ruby_search_engine.rb -p 2 QUERY
+ $ ./ruby_search_engine.rb -p 2 QUERY
 
 = Dependencies
 
