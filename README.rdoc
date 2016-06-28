@@ -1,11 +1,10 @@
 = ruby-search-engine
-*_NOTE: As of May 2016, Google has deprecated this method and so the gem no longer works.
+NOTE: As of May 2016, Google has deprecated this method and so the gem no longer works.
 We will leave the code up for educational purposes.
 For alternatives, please refer to Google's official API and documentation.
 Thank you to everyone who has used our gem and we apologize for any inconvenience.
 
 -Matt Le
-_*
 
 
 Author:: Martin Velez, Michael Yen, Matthew Le
